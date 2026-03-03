@@ -1,0 +1,68 @@
+{
+  "name": "sanity-plugin-recycle-bin",
+  "version": "1.0.0",
+  "description": "Sanity plugin providing soft-delete functionality with 30-day retention and document restoration",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "recycle-bin",
+    "soft-delete",
+    "trash",
+    "document-recovery"
+  ],
+  "license": "MIT",
+  "author": "Anyday Agency",
+  "type": "module",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "browserslist": "extends @sanity/browserslist-config",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "pkg build --check --clean",
+    "dev": "pkg watch",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@sanity/icons": "^3",
+    "@sanity/ui": "^3",
+    "react": "^18 || ^19",
+    "sanity": "^5"
+  },
+  "devDependencies": {
+    "@sanity/browserslist-config": "^1.0.5",
+    "@sanity/icons": "^3.7.0",
+    "@sanity/pkg-utils": "^7.2.1",
+    "@sanity/ui": "^3.0.0",
+    "@types/react": "^19.1",
+    "eslint": "^8.57.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^5.7.0",
+    "styled-components": "^6.1.18",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "sanityPlugin": {
+    "verifyPackage": {
+      "module": false
+    }
+  }
+}
