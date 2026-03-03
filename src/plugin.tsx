@@ -1,16 +1,16 @@
-import { definePlugin } from 'sanity';
-import { TrashIcon } from '@sanity/icons';
-import { deletedDocumentSchema } from './schemas/deletedDocument';
-import { wrapDeleteWithArchive } from './actions/deleteWithArchive';
-import { RecycleBinTool } from './tool/RecycleBinTool';
-import type { RecycleBinPluginConfig } from './types';
-import { RETENTION_DAYS } from './constants';
+import {definePlugin} from 'sanity'
+import {TrashIcon} from '@sanity/icons'
+import {deletedDocumentSchema} from './schemas/deletedDocument'
+import {wrapDeleteWithArchive} from './actions/deleteWithArchive'
+import {RecycleBinTool} from './tool/RecycleBinTool'
+import type {RecycleBinPluginConfig} from './types'
+import {RETENTION_DAYS} from './constants'
 
 export const recycleBin = definePlugin<RecycleBinPluginConfig | void>((config = {}) => {
   const pluginConfig: RecycleBinPluginConfig = {
     retentionDays: RETENTION_DAYS,
     ...config,
-  };
+  }
 
   return {
     name: 'sanity-plugin-recycle-bin',
@@ -19,7 +19,7 @@ export const recycleBin = definePlugin<RecycleBinPluginConfig | void>((config = 
     },
     document: {
       actions: (prev, context) => {
-        return wrapDeleteWithArchive(prev, context.schemaType, pluginConfig);
+        return wrapDeleteWithArchive(prev, context.schemaType, pluginConfig)
       },
     },
     tools: [
@@ -30,5 +30,5 @@ export const recycleBin = definePlugin<RecycleBinPluginConfig | void>((config = 
         component: RecycleBinTool,
       },
     ],
-  };
-});
+  }
+})

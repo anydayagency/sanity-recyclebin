@@ -26,16 +26,16 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
-  "browserslist": "extends @sanity/browserslist-config",
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "pkg build --check --clean",
-    "dev": "pkg watch",
-    "lint": "eslint .",
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react,react-dom,sanity,@sanity/ui,@sanity/icons",
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts --external react,react-dom,sanity,@sanity/ui,styled-components,@sanity/icons",
     "prepublishOnly": "npm run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
@@ -45,10 +45,9 @@
     "sanity": "^5"
   },
   "devDependencies": {
-    "@sanity/browserslist-config": "^1.0.5",
     "@sanity/icons": "^3.7.0",
-    "@sanity/pkg-utils": "^7.2.1",
     "@sanity/ui": "^3.0.0",
+    "tsup": "^8.4.0",
     "@types/react": "^19.1",
     "eslint": "^8.57.0",
     "react": "^19.2.4",
@@ -64,5 +63,13 @@
     "verifyPackage": {
       "module": false
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anydayagency/sanity-recyclebin"
+  },
+  "bugs": {
+    "url": "https://github.com/anydayagency/sanity-recyclebin/issues"
+  },
+  "homepage": "https://github.com/anydayagency/sanity-recyclebin#readme"
 }

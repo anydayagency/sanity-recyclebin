@@ -1,1 +1,1 @@
-export { createDeleteWithArchiveAction, wrapDeleteWithArchive } from './deleteWithArchive';
+export {createDeleteWithArchiveAction, wrapDeleteWithArchive} from './deleteWithArchive'

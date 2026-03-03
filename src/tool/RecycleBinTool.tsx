@@ -1,25 +1,25 @@
-import { useState, useCallback } from 'react';
-import { Box, Card, Stack, Text, Flex, Button, Badge, Heading, useToast } from '@sanity/ui';
-import { TrashIcon, RestoreIcon, ClockIcon, DocumentIcon } from '@sanity/icons';
-import { useDeletedDocuments } from '../hooks/useDeletedDocuments';
-import { useAutoPurge } from '../hooks/useAutoPurge';
-import { DocumentList } from './DocumentList';
-import { RestoreDialog } from './RestoreDialog';
-import { PurgeDialog } from './PurgeDialog';
-import type { DeletedDocument } from '../types';
+import {useState, useCallback} from 'react'
+import {Box, Card, Stack, Text, Flex, Button, Badge, Heading, useToast} from '@sanity/ui'
+import {TrashIcon, RestoreIcon, ClockIcon, DocumentIcon} from '@sanity/icons'
+import {useDeletedDocuments} from '../hooks/useDeletedDocuments'
+import {useAutoPurge} from '../hooks/useAutoPurge'
+import {DocumentList} from './DocumentList'
+import {RestoreDialog} from './RestoreDialog'
+import {PurgeDialog} from './PurgeDialog'
+import type {DeletedDocument} from '../types'
 
 export function RecycleBinTool() {
-  const toast = useToast();
-  const [typeFilter, setTypeFilter] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDocument, setSelectedDocument] = useState<DeletedDocument | null>(null);
-  const [showRestoreDialog, setShowRestoreDialog] = useState(false);
-  const [showPurgeDialog, setShowPurgeDialog] = useState(false);
+  const toast = useToast()
+  const [typeFilter, setTypeFilter] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedDocument, setSelectedDocument] = useState<DeletedDocument | null>(null)
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false)
+  const [showPurgeDialog, setShowPurgeDialog] = useState(false)
 
-  const { documents, loading, error, refresh } = useDeletedDocuments({
+  const {documents, loading, error, refresh} = useDeletedDocuments({
     typeFilter: typeFilter || undefined,
     searchQuery: searchQuery || undefined,
-  });
+  })
 
   // Auto-purge expired documents on mount
   useAutoPurge({
@@ -28,74 +28,74 @@ export function RecycleBinTool() {
         status: 'info',
         title: 'Auto-purge complete',
         description: `${count} expired document(s) were permanently deleted`,
-      });
-      refresh();
+      })
+      refresh()
     },
     onError: (err) => {
-      console.error('Auto-purge error:', err);
+      console.error('Auto-purge error:', err)
     },
-  });
+  })
 
   const handleSelect = useCallback((doc: DeletedDocument) => {
-    setSelectedDocument(doc);
-  }, []);
+    setSelectedDocument(doc)
+  }, [])
 
   const handleRestore = useCallback(() => {
     if (selectedDocument) {
-      setShowRestoreDialog(true);
+      setShowRestoreDialog(true)
     }
-  }, [selectedDocument]);
+  }, [selectedDocument])
 
   const handlePurge = useCallback(() => {
     if (selectedDocument) {
-      setShowPurgeDialog(true);
+      setShowPurgeDialog(true)
     }
-  }, [selectedDocument]);
+  }, [selectedDocument])
 
   const handleRestored = useCallback(() => {
     toast.push({
       status: 'success',
       title: 'Document restored',
       description: `"${selectedDocument?.documentTitle}" has been restored`,
-    });
-    setShowRestoreDialog(false);
-    setSelectedDocument(null);
-    refresh();
-  }, [selectedDocument, toast, refresh]);
+    })
+    setShowRestoreDialog(false)
+    setSelectedDocument(null)
+    refresh()
+  }, [selectedDocument, toast, refresh])
 
   const handlePurged = useCallback(() => {
     toast.push({
       status: 'success',
       title: 'Document permanently deleted',
       description: `"${selectedDocument?.documentTitle}" has been removed from the Recycle Bin`,
-    });
-    setShowPurgeDialog(false);
-    setSelectedDocument(null);
-    refresh();
-  }, [selectedDocument, toast, refresh]);
+    })
+    setShowPurgeDialog(false)
+    setSelectedDocument(null)
+    refresh()
+  }, [selectedDocument, toast, refresh])
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     return date.toLocaleString(undefined, {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-    });
-  };
+    })
+  }
 
   const getDaysRemaining = (expiresAt: string) => {
-    const now = new Date();
-    const expires = new Date(expiresAt);
-    const diffTime = expires.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return Math.max(0, diffDays);
-  };
+    const now = new Date()
+    const expires = new Date(expiresAt)
+    const diffTime = expires.getTime() - now.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return Math.max(0, diffDays)
+  }
 
   return (
-    <Box padding={4} style={{ height: '100%' }}>
-      <Stack space={4} style={{ height: '100%' }}>
+    <Box padding={4} style={{height: '100%'}}>
+      <Stack space={4} style={{height: '100%'}}>
         {/* Header */}
         <Flex align="center" gap={3}>
           <Text size={3}>
@@ -108,9 +108,9 @@ export function RecycleBinTool() {
         </Flex>
 
         {/* Content */}
-        <Flex gap={4} style={{ flex: 1, minHeight: 0 }}>
+        <Flex gap={4} style={{flex: 1, minHeight: 0}}>
           {/* Document List */}
-          <Box style={{ width: '400px', overflowY: 'auto' }}>
+          <Box style={{width: '400px', overflowY: 'auto'}}>
             <DocumentList
               documents={documents}
               loading={loading}
@@ -125,9 +125,9 @@ export function RecycleBinTool() {
           </Box>
 
           {/* Preview Panel */}
-          <Box style={{ flex: 1 }}>
+          <Box style={{flex: 1}}>
             {selectedDocument ? (
-              <Card padding={4} radius={2} shadow={1} style={{ height: '100%' }}>
+              <Card padding={4} radius={2} shadow={1} style={{height: '100%'}}>
                 <Stack space={4}>
                   {/* Document Info */}
                   <Stack space={3}>
@@ -155,7 +155,7 @@ export function RecycleBinTool() {
                         <Text size={1} muted>
                           Original ID:
                         </Text>
-                        <Text size={1} style={{ fontFamily: 'monospace' }}>
+                        <Text size={1} style={{fontFamily: 'monospace'}}>
                           {selectedDocument.originalDocumentId}
                         </Text>
                       </Flex>
@@ -204,7 +204,9 @@ export function RecycleBinTool() {
                           <Text size={1} muted>
                             References:
                           </Text>
-                          <Text size={1}>{selectedDocument.referencedDocumentIds.length} documents</Text>
+                          <Text size={1}>
+                            {selectedDocument.referencedDocumentIds.length} documents
+                          </Text>
                         </Flex>
                       )}
                     </Stack>
@@ -229,13 +231,9 @@ export function RecycleBinTool() {
                 </Stack>
               </Card>
             ) : (
-              <Card padding={4} radius={2} tone="transparent" style={{ height: '100%' }}>
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={{ height: '100%' }}
-                >
-                  <Stack space={3} style={{ textAlign: 'center' }}>
+              <Card padding={4} radius={2} tone="transparent" style={{height: '100%'}}>
+                <Flex align="center" justify="center" style={{height: '100%'}}>
+                  <Stack space={3} style={{textAlign: 'center'}}>
                     <Text size={4} muted>
                       <TrashIcon />
                     </Text>
@@ -265,5 +263,5 @@ export function RecycleBinTool() {
         />
       )}
     </Box>
-  );
+  )
 }

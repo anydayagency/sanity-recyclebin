@@ -1,4 +1,4 @@
-# sanity-plugin-recycle-bin
+# Sanity Plugin Recyle bin
 
 A Sanity plugin that provides soft-delete functionality with configurable retention, allowing users to restore deleted documents from a Recycle Bin tool.
 
@@ -21,8 +21,8 @@ npm install sanity-plugin-recycle-bin
 Add the plugin to your Sanity configuration:
 
 ```typescript
-import { defineConfig } from 'sanity';
-import { recycleBin } from 'sanity-plugin-recycle-bin';
+import {defineConfig} from 'sanity'
+import {recycleBin} from 'sanity-plugin-recycle-bin'
 
 export default defineConfig({
   // ... your config
@@ -33,16 +33,16 @@ export default defineConfig({
       excludeTypes: ['siteSettings', 'themeSettings'], // optional, exclude specific types
     }),
   ],
-});
+})
 ```
 
 ## Configuration Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `retentionDays` | `number` | `30` | Days to retain deleted documents |
+| Option           | Type       | Default     | Description                           |
+| ---------------- | ---------- | ----------- | ------------------------------------- |
+| `retentionDays`  | `number`   | `30`        | Days to retain deleted documents      |
 | `deletableTypes` | `string[]` | `undefined` | Only these types will use soft delete |
-| `excludeTypes` | `string[]` | `undefined` | These types will use hard delete |
+| `excludeTypes`   | `string[]` | `undefined` | These types will use hard delete      |
 
 ## How It Works
 

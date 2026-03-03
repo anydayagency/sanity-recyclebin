@@ -1,22 +1,17 @@
-// Main plugin export
-export { recycleBin } from './plugin';
-
-// Types
 export type {
-  RecycleBinPluginConfig,
-  DeletedDocument,
   DeletedByUser,
-  RestoreResult,
+  DeletedDocument,
+  RecycleBinPluginConfig,
   ReferenceCheckResult,
-} from './types';
+  RestoreResult,
+} from './types'
 
-// Constants
-export { RETENTION_DAYS, SCHEMA_TYPE, API_VERSION } from './constants';
+export {API_VERSION, RETENTION_DAYS, SCHEMA_TYPE} from './constants'
 
-// Hooks (for advanced usage)
-export { useDeletedDocuments } from './hooks/useDeletedDocuments';
-export { useRestoreDocument } from './hooks/useRestoreDocument';
-export { useAutoPurge } from './hooks/useAutoPurge';
+export {useAutoPurge} from './hooks/useAutoPurge'
+export {useDeletedDocuments} from './hooks/useDeletedDocuments'
+export {useRestoreDocument} from './hooks/useRestoreDocument'
 
-// Utils (for advanced usage)
-export { collectReferenceIds, nullifyMissingRefs, getDocumentTitle } from './utils/references';
+export {collectReferenceIds, getDocumentTitle, nullifyMissingRefs} from './utils/references'
+
+export {recycleBin} from './plugin'

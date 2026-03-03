@@ -1,6 +1,6 @@
-import { defineType, defineField } from 'sanity';
-import { TrashIcon } from '@sanity/icons';
-import { SCHEMA_TYPE } from '../constants';
+import {defineType, defineField} from 'sanity'
+import {TrashIcon} from '@sanity/icons'
+import {SCHEMA_TYPE} from '../constants'
 
 export const deletedDocumentSchema = defineType({
   name: SCHEMA_TYPE,
@@ -85,7 +85,7 @@ export const deletedDocumentSchema = defineType({
       name: 'referencedDocumentIds',
       title: 'Referenced Document IDs',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{type: 'string'}],
       description: 'IDs of documents referenced by this document for restore validation',
       readOnly: true,
     }),
@@ -97,13 +97,13 @@ export const deletedDocumentSchema = defineType({
       deletedAt: 'deletedAt',
       siteId: 'siteId',
     },
-    prepare({ title, originalType, deletedAt, siteId }) {
-      const date = deletedAt ? new Date(deletedAt).toLocaleDateString() : 'Unknown';
+    prepare({title, originalType, deletedAt, siteId}) {
+      const date = deletedAt ? new Date(deletedAt).toLocaleDateString() : 'Unknown'
       return {
         title: title || 'Untitled',
         subtitle: `${originalType} • Deleted ${date}${siteId ? ` • ${siteId}` : ''}`,
         media: TrashIcon,
-      };
+      }
     },
   },
-});
+})

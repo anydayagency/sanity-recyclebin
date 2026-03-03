@@ -1,29 +1,19 @@
-import { useState, useCallback } from 'react';
-import {
-  Box,
-  Card,
-  Stack,
-  Text,
-  TextInput,
-  Select,
-  Flex,
-  Spinner,
-  Badge,
-} from '@sanity/ui';
-import { SearchIcon, TrashIcon } from '@sanity/icons';
-import { useWorkspace } from 'sanity';
-import type { DeletedDocument } from '../types';
+import {useState, useCallback} from 'react'
+import {Box, Card, Stack, Text, TextInput, Select, Flex, Spinner, Badge} from '@sanity/ui'
+import {SearchIcon, TrashIcon} from '@sanity/icons'
+import {useWorkspace} from 'sanity'
+import type {DeletedDocument} from '../types'
 
 interface DocumentListProps {
-  documents: DeletedDocument[];
-  loading: boolean;
-  error: Error | null;
-  selectedId: string | null;
-  onSelect: (doc: DeletedDocument) => void;
-  onTypeFilterChange: (type: string) => void;
-  onSearchChange: (query: string) => void;
-  typeFilter: string;
-  searchQuery: string;
+  documents: DeletedDocument[]
+  loading: boolean
+  error: Error | null
+  selectedId: string | null
+  onSelect: (doc: DeletedDocument) => void
+  onTypeFilterChange: (type: string) => void
+  onSearchChange: (query: string) => void
+  typeFilter: string
+  searchQuery: string
 }
 
 export function DocumentList({
@@ -37,42 +27,42 @@ export function DocumentList({
   typeFilter,
   searchQuery,
 }: DocumentListProps) {
-  const workspace = useWorkspace();
-  const isAdminWorkspace = workspace?.name === 'admin';
+  const workspace = useWorkspace()
+  const isAdminWorkspace = workspace?.name === 'admin'
 
   // Get unique types for filter dropdown
-  const uniqueTypes = Array.from(new Set(documents.map((doc) => doc.originalType))).sort();
+  const uniqueTypes = Array.from(new Set(documents.map((doc) => doc.originalType))).sort()
 
   const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onSearchChange(event.target.value);
+      onSearchChange(event.target.value)
     },
-    [onSearchChange]
-  );
+    [onSearchChange],
+  )
 
   const handleTypeChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
-      onTypeFilterChange(event.target.value);
+      onTypeFilterChange(event.target.value)
     },
-    [onTypeFilterChange]
-  );
+    [onTypeFilterChange],
+  )
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     return date.toLocaleDateString(undefined, {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
-    });
-  };
+    })
+  }
 
   const getDaysRemaining = (expiresAt: string) => {
-    const now = new Date();
-    const expires = new Date(expiresAt);
-    const diffTime = expires.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return Math.max(0, diffDays);
-  };
+    const now = new Date()
+    const expires = new Date(expiresAt)
+    const diffTime = expires.getTime() - now.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return Math.max(0, diffDays)
+  }
 
   return (
     <Stack space={3}>
@@ -114,7 +104,7 @@ export function DocumentList({
         </Card>
       ) : documents.length === 0 ? (
         <Card padding={4}>
-          <Stack space={3} style={{ textAlign: 'center' }}>
+          <Stack space={3} style={{textAlign: 'center'}}>
             <Text size={4}>
               <TrashIcon />
             </Text>
@@ -127,8 +117,8 @@ export function DocumentList({
       ) : (
         <Stack space={2}>
           {documents.map((doc) => {
-            const daysRemaining = getDaysRemaining(doc.expiresAt);
-            const isSelected = selectedId === doc._id;
+            const daysRemaining = getDaysRemaining(doc.expiresAt)
+            const isSelected = selectedId === doc._id
 
             return (
               <Card
@@ -137,12 +127,12 @@ export function DocumentList({
                 radius={2}
                 shadow={1}
                 tone={isSelected ? 'primary' : undefined}
-                style={{ cursor: 'pointer' }}
+                style={{cursor: 'pointer'}}
                 onClick={() => onSelect(doc)}
               >
                 <Stack space={2}>
                   <Flex align="center" gap={2}>
-                    <Text size={1} weight="semibold" style={{ flex: 1 }}>
+                    <Text size={1} weight="semibold" style={{flex: 1}}>
                       {doc.documentTitle || 'Untitled'}
                     </Text>
                     <Badge tone={daysRemaining <= 7 ? 'critical' : 'caution'} fontSize={0}>
@@ -169,10 +159,10 @@ export function DocumentList({
                   )}
                 </Stack>
               </Card>
-            );
+            )
           })}
         </Stack>
       )}
     </Stack>
-  );
+  )
 }

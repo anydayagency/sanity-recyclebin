@@ -1,40 +1,35 @@
-import { useCallback, useState } from 'react';
-import { useClient } from 'sanity';
-import { Dialog, Box, Card, Stack, Text, Button, Flex } from '@sanity/ui';
-import { TrashIcon, WarningOutlineIcon } from '@sanity/icons';
-import { API_VERSION } from '../constants';
-import type { DeletedDocument } from '../types';
+import {useCallback, useState} from 'react'
+import {useClient} from 'sanity'
+import {Dialog, Box, Card, Stack, Text, Button, Flex} from '@sanity/ui'
+import {TrashIcon, WarningOutlineIcon} from '@sanity/icons'
+import {API_VERSION} from '../constants'
+import type {DeletedDocument} from '../types'
 
 interface PurgeDialogProps {
-  document: DeletedDocument;
-  onClose: () => void;
-  onPurged: () => void;
+  document: DeletedDocument
+  onClose: () => void
+  onPurged: () => void
 }
 
-export function PurgeDialog({ document, onClose, onPurged }: PurgeDialogProps) {
-  const client = useClient({ apiVersion: API_VERSION });
-  const [purging, setPurging] = useState(false);
+export function PurgeDialog({document, onClose, onPurged}: PurgeDialogProps) {
+  const client = useClient({apiVersion: API_VERSION})
+  const [purging, setPurging] = useState(false)
 
   const handlePurge = useCallback(async () => {
-    setPurging(true);
+    setPurging(true)
 
     try {
-      await client.delete(document._id);
-      onPurged();
+      await client.delete(document._id)
+      onPurged()
     } catch (err) {
-      console.error('Failed to permanently delete document:', err);
+      console.error('Failed to permanently delete document:', err)
     } finally {
-      setPurging(false);
+      setPurging(false)
     }
-  }, [client, document._id, onPurged]);
+  }, [client, document._id, onPurged])
 
   return (
-    <Dialog
-      id="purge-document-dialog"
-      header="Permanently Delete"
-      onClose={onClose}
-      width={1}
-    >
+    <Dialog id="purge-document-dialog" header="Permanently Delete" onClose={onClose} width={1}>
       <Box padding={4}>
         <Stack space={4}>
           <Card padding={3} radius={2} tone="critical">
@@ -57,12 +52,7 @@ export function PurgeDialog({ document, onClose, onPurged }: PurgeDialogProps) {
           </Card>
 
           <Flex gap={3} justify="flex-end">
-            <Button
-              mode="ghost"
-              text="Cancel"
-              onClick={onClose}
-              disabled={purging}
-            />
+            <Button mode="ghost" text="Cancel" onClick={onClose} disabled={purging} />
             <Button
               tone="critical"
               icon={TrashIcon}
@@ -74,5 +64,5 @@ export function PurgeDialog({ document, onClose, onPurged }: PurgeDialogProps) {
         </Stack>
       </Box>
     </Dialog>
-  );
+  )
 }
