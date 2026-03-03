@@ -1,0 +1,99 @@
+{
+  "name": "@anyday/sanity-plugin-recycle-bin",
+  "version": "1.0.0",
+  "description": "Sanity plugin providing soft-delete functionality with 30-day retention and document restoration",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "recycle-bin",
+    "soft-delete",
+    "trash",
+    "document-recovery"
+  ],
+  "license": "MIT",
+  "author": "Anyday Agency",
+  "type": "module",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
+    "watch": "pkg-utils watch --strict",
+    "link-watch": "plugin-kit link-watch",
+    "prepublishOnly": "npm run build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
+  },
+  "peerDependencies": {
+    "@sanity/icons": "^3",
+    "@sanity/ui": "^3",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19",
+    "sanity": "^5"
+  },
+  "devDependencies": {
+    "@sanity/icons": "^3",
+    "@sanity/ui": "^3",
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
+    "@sanity/pkg-utils": "^10.4.8",
+    "@sanity/plugin-kit": "^4.0.20",
+    "@sanity/semantic-release-preset": "^6.0.0",
+    "@types/react": "^19.1",
+    "eslint": "^8.57.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^5.7.0",
+    "styled-components": "^6.1.18",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "browserslist": "extends @sanity/browserslist-config",
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs",
+        "default": "./dist/index.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
+  "sanityPlugin": {
+    "verifyPackage": {
+      "module": false,
+      "sanityV2Json": false,
+      "eslintImports": false
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anydayagency/sanity-recyclebin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anydayagency/sanity-recyclebin/issues"
+  },
+  "homepage": "https://github.com/anydayagency/sanity-recyclebin#readme"
+}
