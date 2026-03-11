@@ -7,6 +7,7 @@ export const deletedDocumentSchema = defineType({
   title: 'Deleted Document',
   type: 'document',
   icon: TrashIcon,
+  __experimental_omnisearch_visibility: false,
   fields: [
     defineField({
       name: 'originalDocumentId',

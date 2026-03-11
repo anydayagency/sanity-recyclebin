@@ -13,8 +13,10 @@ A Sanity plugin that provides soft-delete functionality with configurable retent
 ## Installation
 
 ```bash
-npm install sanity-plugin-recycle-bin
+npm install @anyday/sanity-plugin-recycle-bin @sanity/icons @sanity/ui
 ```
+
+> **Note:** `@sanity/icons` and `@sanity/ui` are peer dependencies. If you're using pnpm, they must be declared as direct dependencies in your project since pnpm does not hoist transitive dependencies.
 
 ## Usage
 
@@ -22,7 +24,7 @@ Add the plugin to your Sanity configuration:
 
 ```typescript
 import {defineConfig} from 'sanity'
-import {recycleBin} from 'sanity-plugin-recycle-bin'
+import {recycleBin} from '@anyday/sanity-plugin-recycle-bin'
 
 export default defineConfig({
   // ... your config
@@ -62,3 +64,22 @@ In a multi-site setup, the plugin respects the `siteId` field:
 ## License
 
 MIT
+
+## License
+
+[MIT](LICENSE) © Anyday Agency
+
+## Develop & test
+
+This plugin uses [@sanity/plugin-kit](https://github.com/sanity-io/plugin-kit)
+with default configuration for build & watch scripts.
+
+See [Testing a plugin in Sanity Studio](https://github.com/sanity-io/plugin-kit#testing-a-plugin-in-sanity-studio)
+on how to run this plugin with hotreload in the studio.
+
+### Release new version
+
+Run ["CI & Release" workflow](https://github.com/anydayagency/sanity-recyclebin/actions/workflows/main.yml).
+Make sure to select the main branch and check "Release new version".
+
+Semantic release will only release on configured branches, so it is safe to run release on any branch.

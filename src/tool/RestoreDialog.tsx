@@ -15,7 +15,6 @@ export function RestoreDialog({document, onClose, onRestored}: RestoreDialogProp
   const [referenceCheck, setReferenceCheck] = useState<ReferenceCheckResult | null>(null)
   const [checkingRefs, setCheckingRefs] = useState(true)
 
-  // Check references on mount
   useEffect(() => {
     async function check() {
       setCheckingRefs(true)
@@ -48,7 +47,7 @@ export function RestoreDialog({document, onClose, onRestored}: RestoreDialogProp
           ) : (
             <>
               <Card padding={3} radius={2} tone="positive">
-                <Stack space={3}>
+                <Stack space={4}>
                   <Text size={2} weight="semibold">
                     Restore "{document.documentTitle}"?
                   </Text>

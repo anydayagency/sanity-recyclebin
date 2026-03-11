@@ -1,7 +1,6 @@
 import {useState, useCallback} from 'react'
 import {Box, Card, Stack, Text, TextInput, Select, Flex, Spinner, Badge} from '@sanity/ui'
 import {SearchIcon, TrashIcon} from '@sanity/icons'
-import {useWorkspace} from 'sanity'
 import type {DeletedDocument} from '../types'
 
 interface DocumentListProps {
@@ -27,10 +26,6 @@ export function DocumentList({
   typeFilter,
   searchQuery,
 }: DocumentListProps) {
-  const workspace = useWorkspace()
-  const isAdminWorkspace = workspace?.name === 'admin'
-
-  // Get unique types for filter dropdown
   const uniqueTypes = Array.from(new Set(documents.map((doc) => doc.originalType))).sort()
 
   const handleSearchChange = useCallback(
@@ -65,8 +60,7 @@ export function DocumentList({
   }
 
   return (
-    <Stack space={3}>
-      {/* Filters */}
+    <Stack paddingX={3} paddingY={4} space={3}>
       <Card padding={3} radius={2} shadow={1}>
         <Stack space={3}>
           <TextInput
@@ -90,7 +84,6 @@ export function DocumentList({
         </Stack>
       </Card>
 
-      {/* Document List */}
       {loading ? (
         <Card padding={4}>
           <Flex align="center" justify="center" gap={3}>
@@ -139,15 +132,10 @@ export function DocumentList({
                       {daysRemaining}d left
                     </Badge>
                   </Flex>
-                  <Flex gap={2} wrap="wrap">
-                    <Badge mode="outline" fontSize={0}>
+                  <Flex gap={2} align="center" wrap="wrap">
+                    <Badge mode="outline" style={{textTransform: 'capitalize'}} fontSize={0}>
                       {doc.originalType}
                     </Badge>
-                    {isAdminWorkspace && doc.siteId && (
-                      <Badge tone="primary" fontSize={0}>
-                        {doc.siteId}
-                      </Badge>
-                    )}
                     <Text size={0} muted>
                       Deleted {formatDate(doc.deletedAt)}
                     </Text>
