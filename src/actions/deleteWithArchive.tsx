@@ -40,24 +40,12 @@ export function createDeleteWithArchiveAction(
     // Get the document to archive (draft or published)
     const documentToArchive = draft || published
 
-    // Check if this type should use recycle bin
     const shouldUseRecycleBin = useMemo(() => {
-      // Skip if document doesn't exist
       if (!documentToArchive) return false
-
-      // Check excludeTypes
       if (config.excludeTypes?.includes(type)) return false
-
-      // Check deletableTypes (if specified, must be in the list)
       if (config.deletableTypes && !config.deletableTypes.includes(type)) return false
-
       return true
     }, [type, documentToArchive])
-
-    // If this type shouldn't use recycle bin, return original action
-    if (!shouldUseRecycleBin) {
-      return originalAction
-    }
 
     const handleArchiveAndDelete = useCallback(async () => {
       if (!documentToArchive) return
@@ -65,26 +53,21 @@ export function createDeleteWithArchiveAction(
       setIsArchiving(true)
 
       try {
-        // Collect all reference IDs from the document
         const referencedIds = new Set<string>()
         collectReferenceIds(documentToArchive, referencedIds)
 
-        // Calculate expiration date
         const now = new Date()
         const expiresAt = new Date(now)
         expiresAt.setDate(expiresAt.getDate() + retentionDays)
 
-        // Get user info for deletedBy
         const deletedBy: DeletedByUser = {
           id: user?.id || 'unknown',
           name: user?.name || 'Unknown User',
           email: user?.email,
         }
 
-        // Get the siteId from the document (for multi-site support)
         const siteId = (documentToArchive as Record<string, unknown>).siteId as string | undefined
 
-        // Create the archive document
         const archiveDoc = {
           _type: SCHEMA_TYPE,
           originalDocumentId: id,
@@ -98,10 +81,7 @@ export function createDeleteWithArchiveAction(
           referencedDocumentIds: Array.from(referencedIds),
         }
 
-        // Create archive first
         await client.create(archiveDoc)
-
-        // Then delete the original document
         deleteOp.execute()
 
         toast.push({
@@ -132,16 +112,14 @@ export function createDeleteWithArchiveAction(
       setShowDialog(false)
     }, [])
 
-    // Calculate expiration date for display
     const expirationDate = useMemo(() => {
       const date = new Date()
       date.setDate(date.getDate() + retentionDays)
       return date.toLocaleDateString()
     }, [retentionDays])
 
-    // Handle case where original action is null
-    if (!originalAction) {
-      return null
+    if (!shouldUseRecycleBin || !originalAction) {
+      return originalAction
     }
 
     const result: DocumentActionDescription = {
